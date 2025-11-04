@@ -1,0 +1,10 @@
+{
+  "models": [
+    "llama-70b",
+    "mistral-7b"
+  ],
+  "costs": {
+    "llama": 6.9,
+    "mistral": 0.5
+  }
+}

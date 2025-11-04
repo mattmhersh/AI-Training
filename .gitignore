@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.manifest
+*.spec
+*.log
+*.sqlite3
+*.db
+*.dat
+*.tmp
+*.bak
+*.swp
+*.swo
+*.env
+.env/
+.venv/
+venv/
+ENV/
+env.bak/
+venv.bak/
+# Jupyter Notebook
+.ipynb_checkpoints
+# VS Code
+.vscode/
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
