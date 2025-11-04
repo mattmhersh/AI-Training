@@ -1,32 +1,37 @@
 # AI-Training
 
-Subject: AI Infrastructure Learning Roadmap - 6 Week Commitment
+## AI Infrastructure Learning Roadmap
 
-START DATE: Monday, November 4, 2025
-END DATE: Sunday, December 15, 2025
+**6 Week Commitment**
 
-==============================================
-WEEKLY SCHEDULE
-==============================================
-Weekdays: 5:30-6:30 AM (1 hour)
-Saturday: 2:00-4:00 PM (2 hours)
-Total: 7 hours/week
+**Start Date:** Monday, November 4, 2025  
+**End Date:** Sunday, December 15, 2025
 
-==============================================
-WEEK 1: PYTHON BASICS - FUNDAMENTALS (Nov 4-10)
-==============================================
-GOAL: Write basic Python scripts and understand core concepts
+---
 
-DAY 1 (Monday): Setup & Variables
-Tasks:
-□ Install Python 3.11+ from python.org/downloads
-□ Verify installation: python3 --version
-□ Install VS Code from code.visualstudio.com
-□ Install Python extension in VS Code
+### Weekly Schedule
 
-Create file: hello.py
-▼ ▼ ▼ CODE BLOCK ▼ ▼ ▼
-------------------------------------------------------------
+- **Weekdays:** 5:30-6:30 AM (1 hour)
+- **Saturday:** 2:00-4:00 PM (2 hours)
+- **Total:** 7 hours/week
+
+---
+
+## Week 1: Python Basics & Fundamentals (Nov 4-10)
+
+**Goal:** Write basic Python scripts and understand core concepts
+
+### Day 1 (Monday): Setup & Variables
+
+**Tasks:**
+- [ ] Install Python 3.11+ from [python.org/downloads](https://python.org/downloads)
+- [ ] Verify installation: `python3 --version`
+- [ ] Install VS Code from [code.visualstudio.com](https://code.visualstudio.com)
+- [ ] Install Python extension in VS Code
+
+**Create file:** `hello.py`
+
+```python
 # Variables and data types
 name = "Your Name"
 age = 35
@@ -39,10 +44,10 @@ print(f"Skills: {', '.join(skills)}")
 # Basic operations
 for skill in skills:
 print(f"Learning: {skill}")
-------------------------------------------------------------
-▲ ▲ ▲ END CODE ▲ ▲ ▲
 
-Run: python3 hello.py
+```
+
+Run: `python3 hello.py`
 
 
 DAY 2 (Tuesday): Functions & Control Flow
