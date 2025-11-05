@@ -24,3 +24,24 @@
 
 ---
 
+# Work Log
+
+## [2025-11-05]
+
+### Time Spent
+- Hours: 1
+
+### Tasks Completed
+- [X] Week 4
+
+### What Worked Well
+- Created the Digital Ocean Droplet
+- Asking Perplexity on the recommendations on how to create it worked well
+- Using ssh to connect to the droplet
+
+### Challenges / Blockers
+- Finding a Promo Code that worked for Digital Ocean
+- Promo Code that worked: SHIPITFAST10
+
+### Notes & Decisions
+- Took screenshots of every step.
