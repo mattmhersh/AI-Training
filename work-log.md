@@ -45,3 +45,4 @@
 
 ### Notes & Decisions
 - Took screenshots of every step.
+- Deleted my Digital Ocean Droplet. Ran for 4 hours.
