@@ -778,7 +778,7 @@ Good luck! 🚀
 
 -------------------------------------------------------------------------------------
 
-#AI Training Course #2
+# AI Training Course #2
 
 # Week 7: Production-Ready CI/CD, Monitoring, Security & Testing
 
