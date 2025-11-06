@@ -59,6 +59,7 @@
 ### Tasks Completed
 - [X] Week 5
 - [X] Week 6
+- [ ] Week 7
 
 ### What Worked Well
 - I finally found a simple hello world example for Runpod that worked!
@@ -69,6 +70,8 @@
 - $env:RUNPOD_API_TOKEN = "your_actual_token_here"
 - This is how you set the environment variable in Powershell
 - To check the environment variable in powershell run this command: Write-Output $env:RUNPOD_API_TOKEN or echo $env:RUNPOD_API_TOKEN
+- Had an issue with the Github Action File. Took a few iterations to get it working.
 
 ### Notes & Decisions
 - Here is the docker image I used that worked: docker.io/matthersh/runpod-hello-world
+- Just started adding CI and CD Pipeline using Github Actions
