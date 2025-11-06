@@ -58,6 +58,7 @@
 
 ### Tasks Completed
 - [X] Week 5
+- [X] Week 6
 
 ### What Worked Well
 - I finally found a simple hello world example for Runpod that worked!
