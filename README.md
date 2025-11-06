@@ -775,3 +775,346 @@ Next week's focus:
 4. Commit your first file to GitHub
 
 Good luck! 🚀
+
+-------------------------------------------------------------------------------------
+
+#AI Training Course #2
+
+# Week 7: Production-Ready CI/CD, Monitoring, Security & Testing
+
+**Duration:** 7 days  
+**Goal:** Transform your RunPod deployment into a production-grade system with automation, observability, security, and testing.
+
+---
+
+## CI/CD Pipeline with GitHub Actions
+
+Create `.github/workflows/docker-build-push.yml`:
+
+```yaml
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'Dockerfile'
+      - 'requirements.txt'
+      - '**.py'
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest pytest-cov
+
+      - name: Run tests
+        run: pytest tests/ --cov=. --cov-report=term-missing
+
+      - name: Lint code
+        run: |
+          pip install ruff
+          ruff check .
+
+  build-push:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/ai-api
+          tags: |
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=semver,pattern={{version}}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/ai-api:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/ai-api:buildcache,mode=max
+```
+
+Add secrets in GitHub:
+- `DOCKERHUB_USERNAME`
+- `DOCKERHUB_TOKEN`
+
+---
+
+## Automated Testing
+
+Place files in `tests/`:
+
+```python
+# tests/test_api.py
+
+import pytest
+from fastapi.testclient import TestClient
+from main import app
+
+client = TestClient(app)
+
+def test_root_endpoint():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "message" in response.json()
+
+def test_health_check():
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json()["status"] == "healthy"
+
+def test_calculate_cost():
+    payload = {
+        "hours": 10,
+        "gpu_type": "RTX-4090"
+    }
+    response = client.post("/calculate-cost", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["total_cost"] == 6.90
+    assert data["rate_per_hour"] == 0.69
+
+def test_invalid_gpu_type():
+    payload = {
+        "hours": 10,
+        "gpu_type": "INVALID-GPU"
+    }
+    response = client.post("/calculate-cost", json=payload)
+    assert "error" in response.json()
+```
+
+Add integration and handler tests as described previously.
+
+Run locally:
+```bash
+pytest tests/ -v --cov=. --cov-report=html
+```
+
+---
+
+## Monitoring & Observability
+
+Log job states, execution time, error rates, cold starts, and cost tracking.  
+Edit your handler for structured logging:
+
+```python
+import logging
+import time
+from datetime import datetime
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+def handler(job):
+    # ...
+    start_time = time.time()
+    # ...
+    logger.info(f"Job started: {job_id}")
+```
+
+Script sample for cost tracking:
+
+```python
+# scripts/monitor_costs.py
+
+import os, requests
+
+RUNPOD_API_KEY = os.getenv("RUNPOD_API_KEY")
+ENDPOINT_ID = os.getenv("RUNPOD_ENDPOINT_ID")
+...
+
+def calculate_costs(metrics):
+    GPU_RATE = 0.69
+    total_execution_seconds = sum(job.get("executionTime", 0) for job in metrics.get("jobs", []))
+    hours = total_execution_seconds / 3600
+    total_cost = hours * GPU_RATE
+    print(f"Total execution time: {total_execution_seconds:.2f}s")
+    print(f"Total cost: ${total_cost:.4f}")
+```
+
+Monitor core metrics in the RunPod dashboard.
+
+---
+
+## API Security
+
+### API Key Authentication
+
+Update handler:
+```python
+import os
+
+VALID_API_KEYS = os.getenv("VALID_API_KEYS", "").split(",")
+
+def validate_api_key(job):
+    headers = job.get("headers", {})
+    api_key = headers.get("X-API-Key") or headers.get("x-api-key")
+    return api_key in VALID_API_KEYS
+```
+
+Add keys to RunPod env vars.
+
+### Rate Limiting
+Add a utility module for rate limiting:
+
+```python
+from collections import defaultdict
+import time
+
+class RateLimiter:
+    # ...
+```
+
+### Input Validation
+
+Use pydantic for input checks.
+
+---
+
+## Load Testing
+
+Use Locust for load testing (free/local):
+
+Install:
+```bash
+pip install locust
+```
+
+Example `locustfile.py`:
+```python
+from locust import HttpUser, task, between
+import os
+
+class RunPodUser(HttpUser):
+    wait_time = between(1, 3)
+    host = f"https://api.runpod.ai/v2/{os.getenv('RUNPOD_ENDPOINT_ID')}"
+    ...
+```
+
+Run:
+```bash
+locust -f tests/locustfile.py --headless -u 10 -r 2 --run-time 2m --html report.html
+```
+
+Free RunPod credits: use minimum workers, monitor costs live.
+
+---
+
+## Documentation & Final Integration
+
+Update your `README.md`:
+
+```markdown
+# AI Infrastructure Project
+
+## Architecture
+- FastAPI application
+- Docker containerization
+- RunPod serverless deployment
+- GitHub Actions CI/CD
+- Automated testing & monitoring
+
+## CI/CD Pipeline
+- Tests run on every PR
+- Docker images built on main branch push
+- Automatic deployment to Docker Hub
+
+## Security
+- API key authentication
+- Rate limiting (100 req/min)
+- Input validation with Pydantic
+
+## Monitoring
+- RunPod dashboard for metrics
+- Structured logging
+- Cost tracking scripts
+- Performance percentiles
+
+## Testing
+- Unit tests, integration tests, coverage
+- Load testing with Locust
+
+## Deployment
+```bash
+docker-compose up
+git push origin main
+```
+```
+
+---
+
+## Checklist
+
+- [x] GitHub Actions workflow file created
+- [x] Docker Hub secrets configured
+- [x] Pipeline builds and pushes
+- [x] Test suite >80% coverage
+- [x] Application logging
+- [x] RunPod monitoring configured
+- [x] Cost tracking script created
+- [x] API key authentication added
+- [x] Rate limiting implemented
+- [x] Input validation with Pydantic
+- [x] `.env.example` and `.gitignore` updated
+- [x] Locust load test file created
+- [x] README and architecture diagram updated
+
+---
+
+## File Structure
+
+```
+ai-api/
+├── .github/workflows/docker-build-push.yml
+├── tests/
+├── scripts/
+├── utils/
+├── main.py
+├── runpod_main.py
+├── Dockerfile
+├── docker-compose.yml
+├── .env.example
+├── .gitignore
+└── README.md
+```
+
+---
+
+This covers CI/CD, monitoring, security, testing, load-testing, and required documentation using markdown syntax for GitHub.
