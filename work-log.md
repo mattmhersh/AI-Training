@@ -75,3 +75,4 @@
 ### Notes & Decisions
 - Here is the docker image I used that worked: docker.io/matthersh/runpod-hello-world
 - Just started adding CI and CD Pipeline using Github Actions
+- Updated github action to run only when changes happen to the Runpod2 folder.
