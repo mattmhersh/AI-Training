@@ -7,7 +7,9 @@ STATUS_URL = "https://api.runpod.ai/v2/k4exuts0nl1r0q/status"
 
 API_KEY = os.getenv("RUNPOD_API_TOKEN")
 if not API_KEY:
-    print("ERROR: The environment variable RUNPOD_API_TOKEN is not set. Please set it before running this script.")
+    print(
+        "ERROR: The environment variable RUNPOD_API_TOKEN is not set. Please set it before running this script."
+    )
     exit(1)
 
 headers = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
