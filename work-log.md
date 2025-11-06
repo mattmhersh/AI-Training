@@ -46,3 +46,25 @@
 ### Notes & Decisions
 - Took screenshots of every step.
 - Deleted my Digital Ocean Droplet. Ran for 4 hours.
+
+---
+
+# Work Log
+
+## [2025-11-06]
+
+### Time Spent
+- Hours: 1
+
+### Tasks Completed
+- [ ] Week 5
+
+### What Worked Well
+- I finally found a simple hello world example for Runpod that worked!
+- Tutorial URL: https://www.runpod.io/blog/runpod-serverless-hello-world
+
+### Challenges / Blockers
+- None
+
+### Notes & Decisions
+- Here is the docker image I used that worked: docker.io/matthersh/runpod-hello-world
