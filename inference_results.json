@@ -1,0 +1,27 @@
+[
+  {
+    "prompt": "What is artificial intelligence?",
+    "status": "IN_QUEUE",
+    "output": "No output received"
+  },
+  {
+    "prompt": "Explain the concept of machine learning in simple terms.",
+    "status": "IN_QUEUE",
+    "output": "No output received"
+  },
+  {
+    "prompt": "Write a short poem about technology.",
+    "status": "IN_QUEUE",
+    "output": "No output received"
+  },
+  {
+    "prompt": "What are the main benefits of cloud computing?",
+    "status": "IN_QUEUE",
+    "output": "No output received"
+  },
+  {
+    "prompt": "Describe the difference between supervised and unsupervised learning.",
+    "status": "IN_QUEUE",
+    "output": "No output received"
+  }
+]
