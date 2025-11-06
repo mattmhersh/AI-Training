@@ -29,6 +29,6 @@ jobs:
         context: ./Runpod2
         file: ./Runpod2/Dockerfile
         push: true
-        tags: runpod-hello-world:latest
+        tags: matthersh/runpod-hello-world:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
