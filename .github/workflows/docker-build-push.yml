@@ -2,9 +2,15 @@ name: Build and Push Docker Image
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+    paths:
+      - 'Runpod2/**'
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+    paths:
+      - 'Runpod2/**'
 
 jobs:
 
