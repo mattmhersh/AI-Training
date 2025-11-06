@@ -4,6 +4,7 @@ def handler(job):
     """
     This is a simple handler that takes a name as input and returns a greeting.
     The job parameter contains the input data in job["input"]
+    
     """
     job_input = job["input"]
     
